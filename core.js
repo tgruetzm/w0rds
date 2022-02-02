@@ -24,6 +24,9 @@ function load()
             $(this).text("");
         }
     });
+    $(".keyboardLetter").click(function () { 
+        $(document.activeElement).text("x");
+    });
 }
 
 

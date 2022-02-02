@@ -5,15 +5,18 @@
    font-size: 7vw;
    text-transform:uppercase;
    text-align: center;
-   line-height: 100%;
+   display:inline-block;
    vertical-align: middle;
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-   display: inline-block;
    border-width: 5px;
    border-style: solid;
    border-color: #939598;
    
 }
+
+.clear {
+   clear: left;
+ }
 .text:focus {
    border-color: #538d4e;
 }
@@ -32,6 +35,29 @@ p {
    text-align: center;
    vertical-align: middle;
    width: 100vw;
+}
+
+.keyboardLine
+{
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+   vertical-align: middle;
+   width: 100vw;
+}
+
+.keyboardLetter
+{
+   width: 5vw;
+   height: 5vw;
+   background-color: #939598;
+   margin: 5px;
+   display: inline-block;
+   text-align: center;
+   vertical-align: middle;
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-weight: bold;
+   text-align: center;
 }
 
 .disabled   
