@@ -7,19 +7,21 @@ function load()
     if(wxrd == "")
         setCookie("wxrd", "4", 1);
 
-    $(":text").keypress(function(event) {
+    $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
             $("#submit").click();
         }
+        //if (event.keyCode >= 65 && event.keyCode <=90) {
+            $(this).text(event.key.toUpperCase());
+        //}
         });
-    $(".text").keyup(function () {
-        if (this.value.length == this.maxLength) {
+    $(".text").keyup(function () { //TODO change to not alpha
+        if($(this).text().length === 1 && event.keyCode != 8) {
             $(this).next('.text').focus();
         }
-    });
-    $(".text").keyup(function () {
-        if (this.value.length === 0 && event.keyCode === 8) {
+        else if ( event.keyCode === 8) {
             $(this).prev('.text').focus();
+            $(this).text("");
         }
     });
 }
