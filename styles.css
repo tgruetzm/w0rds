@@ -1,0 +1,52 @@
+input[type=text]
+{
+   width: 75px;
+   height: 75px;
+   font-size: 5rem;
+   text-transform:uppercase;
+   text-align: center;
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   display: inline-block;
+   
+}
+p {
+   margin-top: 2rem;
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-size: 200%;
+   font-weight: bold;
+   text-align: center;
+}
+div
+{
+   margin-left: auto;
+   margin-right: auto;
+   text-align: center;
+   vertical-align: middle;
+   padding: 2px;
+}
+
+.disabled   
+{
+   pointer-events:none;
+   cursor: not-allowed;
+}
+
+.validPos
+{
+   color: rgb(255,255,255);
+   background-color: #538d4e;
+   border-width: 0;
+}
+.validLet
+{
+   color: rgb(255,255,255);
+   background-color: #b59f3b;
+   border-width: 0;
+}
+
+.invalid
+{
+   color: rgb(255,255,255);
+   background-color: #939598;
+   border-width: 0;
+}
