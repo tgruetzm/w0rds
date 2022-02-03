@@ -62,12 +62,12 @@ p {
 
 .keyboardLetter
 {
-   width: 6vw;
+   width: 7vw;
    max-width: 50px;;
-   height: 8vw;
+   height: 9vw;
    max-height: 75px;
    background-color: #939598;
-   margin: 5px;
+   margin: .25vw;
    display: inline-block;
    text-align: center;
    vertical-align: middle;
