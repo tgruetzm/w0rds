@@ -1,8 +1,21 @@
+body{
+   min-height: 100vh;
+   min-width: 100vw;
+   display: flex;
+   flex-direction: column;
+}
+footer{
+   margin-top: auto;
+   padding-bottom: 50px;
+   padding-top: 50px;
+}
+
+
 .text
 {
-   width:10vw;
-   height: 10vw;
-   font-size: 7vw;
+   width: 11vw;
+   height: 11vw;
+   font-size: 11vw;
    text-transform:uppercase;
    text-align: center;
    display:inline-block;
@@ -49,8 +62,10 @@ p {
 
 .keyboardLetter
 {
-   width: 5vw;
-   height: 5vw;
+   width: 6vw;
+   max-width: 50px;;
+   height: 8vw;
+   max-height: 75px;
    background-color: #939598;
    margin: 5px;
    display: inline-block;
