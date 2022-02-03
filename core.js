@@ -20,15 +20,33 @@ function load()
     //move focus forward and backwards
     $(".text").keyup(function () { //TODO change to not alpha
         if($(this).text().length === 1 && event.keyCode != 8) {
-            $(this).next('.text').focus();
-            $(".text").removeClass("focus");
-            $(this).next('.text').addClass('focus');
+            var curFocus = $(this);
+            var nextFocus = $(this).next('.text');
+            if(nextFocus.attr('id') != null && !nextFocus.hasClass("hidden"))
+            {
+                $(this).next('.text').focus();
+                $(".text").removeClass("focus");
+                $(this).next('.text').addClass('focus');
+            }   
         }
-        else if ( event.keyCode === 8) {
+        else if ( event.keyCode === 8) {//backspace
+            var prev = $(this).prev('.text');
+            if(prev.attr('id') == null)
+            {
+                var guessNum = getCookie("guessNum");
+                var let0 = "#g" + guessNum + "l0";
+                $(let0).focus();
+                $(let0).text("");
+                $(".text").removeClass("focus");
+                $(let0).addClass('focus');
+                return;
+            }
             $(this).prev('.text').focus();
             $(".text").removeClass("focus");
             $(this).prev('.text').addClass('focus');
             $(this).text("");
+
+            
         }
     });
 
@@ -48,17 +66,34 @@ function load()
         else if(letter == "<X")
         {
             var focus = $(".focus");
-            focus.prev('.text').focus();
-            $(".text").removeClass("focus");
-            focus.prev('.text').addClass('focus');
-            focus.text("");
+            var focusPrev = focus.prev('.text');
+            if(focusPrev.attr('id') != null)
+            {
+                focusPrev.focus();
+                $(".text").removeClass("focus");
+                focusPrev.addClass('focus');
+                focus.text("");
+            }
+            else
+            {
+                var guessNum = getCookie("guessNum");
+                var let0 = "#g" + guessNum + "l0";
+                $(let0).focus();
+                $(let0).text("");
+                $(".text").removeClass("focus");
+                $(let0).addClass('focus');
+            }
             return;
         }
         $(".focus").text(letter);
-        var curFocusE = $(".focus");
-        curFocusE.next('.text').focus();
-        $(".text").removeClass("focus");
-        curFocusE.next('.text').addClass('focus');
+        var curFocus = $(".focus");
+        var nextFocus = curFocus.next('.text');
+        if(nextFocus.attr('id') != null && !nextFocus.hasClass("hidden"))
+        {
+            curFocus.next('.text').focus();
+            $(".text").removeClass("focus");
+            curFocus.next('.text').addClass('focus');
+        }
     });
 }
 
