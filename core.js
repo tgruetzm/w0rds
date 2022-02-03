@@ -10,6 +10,7 @@ function load()
     $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
             $("#submit").click();
+            return;
         }
         //if (event.keyCode >= 65 && event.keyCode <=90) {//todo
             $(this).text(event.key.toUpperCase());
@@ -38,7 +39,18 @@ function load()
     });
     //enter letter on virtual key press
     $(".keyboardLetter").click(function () { 
-        $(".focus").text($(this).text());
+        var letter = $(this).text();
+        if(letter == "ENTER")
+        {
+            $("#submit").click();
+            return;
+        }
+        else if(letter == "<-")
+        {
+            $(".focus").text("");
+            return;
+        }
+        $(".focus").text(letter);
         var curFocusE = $(".focus");
         curFocusE.next('.text').focus();
         $(".text").removeClass("focus");
@@ -62,9 +74,9 @@ function load()
         var let2 = "#g" + guessNum + "l2";
         var let3 = "#g" + guessNum + "l3";
 
-        if($(let0).val() == "" || $(let1).val() == "" || $(let2).val() == "" || $(let3).val() == "")
+        if($(let0).text() == "" || $(let1).text() == "" || $(let2).text() == "" || $(let3).text() == "")
             return false;
-        submittedWord = $(let0).val() + $(let1).val() + $(let2).val() + $(let3).val();
+        submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text();
         //check exact positions
         if(submittedWord.substring(0,1) == wxrd4[wordPos].substring(0,1))
             $(let0).addClass("validPos");
@@ -92,10 +104,11 @@ function load()
             $(let3).addClass("invalid");
         
         
-        $(let0).prop('disabled', true);
-        $(let1).prop('disabled', true);
-        $(let2).prop('disabled', true);
-        $(let3).prop('disabled', true);
+        $(let0).css("pointer-events", "none");
+        $(let1).css("pointer-events", "none");
+        $(let2).css("pointer-events", "none");
+        $(let3).css("pointer-events", "none");
+
 
         guessNum = parseInt(guessNum) + 1;
         setCookie("guessNum", guessNum, 1);
@@ -104,10 +117,10 @@ function load()
         let2 = "#g" + guessNum + "l2";
         let3 = "#g" + guessNum + "l3";
 
-        $(let0).prop('disabled', false);
-        $(let1).prop('disabled', false);
-        $(let2).prop('disabled', false);
-        $(let3).prop('disabled', false);
+        $(let0).css("pointer-events", "auto");
+        $(let1).css("pointer-events", "auto");
+        $(let2).css("pointer-events", "auto");
+        $(let3).css("pointer-events", "auto");
   }
 
 

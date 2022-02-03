@@ -16,9 +16,8 @@ footer{
    max-width: 75px;
    height: 11vw;
    max-height: 75px;
-   font-size: 4em;
-   
-   text-transform:uppercase;
+   font-size: 350%;
+
    text-align: center;
    display:inline-block;
    vertical-align: middle;
@@ -27,7 +26,13 @@ footer{
    border-style: solid;
    border-color: #939598;
    outline: none; 
+   pointer-events :none;
    
+}
+
+.textFirstRow
+{
+   pointer-events :auto;
 }
 
 .clear {
@@ -101,18 +106,18 @@ p {
 {
    color: rgb(255,255,255);
    background-color: #538d4e;
-   border-width: 0;
+   border-color: transparent;
 }
 .validLet
 {
    color: rgb(255,255,255);
    background-color: #b59f3b;
-   border-width: 0;
+   border-color: transparent;
 }
 
 .invalid
 {
    color: rgb(255,255,255);
    background-color: #939598;
-   border-width: 0;
+   border-color: transparent;
 }
