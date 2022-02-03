@@ -120,11 +120,27 @@ p {
 .invalid
 {
    color: rgb(255,255,255);
-   background-color: #939598;
+   background-color: darkgray;
    border-color: transparent;
 }
 
 .hidden{
    visibility: hidden;
    display:none;
+}
+
+.message
+{
+   position: absolute;
+   left: 50%;
+   top: 25%;
+   width: 40vw;
+   font-size: 4vw;
+   margin-left: -25vw;
+   padding : 5vw;
+   color: white;
+   background-color: rgb(61, 61, 61);
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-weight: bold;
+   text-align: center;
 }

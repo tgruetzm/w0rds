@@ -1,5 +1,14 @@
+var ValidScrabbles = new Set();
+
 function load() 
 {
+
+    //load valid scrabble words
+    $.getJSON("validScrabbles.json", function(data){
+        for (var key in data){
+            ValidScrabbles.add(data[key]);
+        }
+    });
     //let guessNum = getCookie("guessNum");
     //if (guessNum == "") 
         setCookie("guessNum", "0", 1);
@@ -99,7 +108,7 @@ function load()
 
 
 
-  const wxrd4 = ["AREA","RAPID","AUTO","AWAY"];
+  const wxrd4 = ["AREA","UNCLE","AUTO","AWAY"];
 
   function submitWord()
   {
@@ -122,14 +131,27 @@ function load()
     //we're at the last row, unfocus
     if(parseInt(guessNum)+1 > maxGuess)
         $(".focus").blur();
+
+    submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text();
+
     
+    //validate word so mother doesn't cheat
+    if(!ValidScrabbles.has(submittedWord))
+    {
+        $("#message").show();
+        $("#message").removeClass("hidden");
+        $("#message").text("Invalid Word!");
+        setTimeout(function() {
+            $(".message").fadeOut('slow');
+        }, 1000);
+        return;
+    }
+
     //focus on next row letter 0
     var nextLet = "#g" + (parseInt(guessNum)+1) + "l0";
     $(".text").removeClass("focus");
     $(nextLet).addClass('focus');
     $(nextLet).focus();
-
-    submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text();
 
     //check exact positions
     var letter = submittedWord.substring(0,1);
@@ -221,10 +243,23 @@ function load()
 
     //winner!!
     if(submittedWord == wxrd4[wordPos]){
-        $(".text").css("pointer-events", "none");
-        $(".text").removeClass("focus");
-        $(".focus").blur();
+        if(guessNum == 0)
+            showMessage("Excellent!");
+        if(guessNum == 1)
+            showMessage("Excellent!");
+        if(guessNum == 2)
+            showMessage("Strong Work!");
+         if(guessNum == 3)
+            showMessage("Good Job!");
+        if(guessNum == 4)
+            showMessage("Satisfactory you are!");
+        if(guessNum == 5)
+            showMessage("That was rough!");
         return;
+    }
+    else if(parseInt(guessNum)+1 > maxGuess)
+    {
+        showMessage("That was sad...")
     }
     
     //disable focusing on current elements
@@ -239,11 +274,19 @@ function load()
   }
 
 
-
-  function keyup()
+  function showMessage(m)
   {
-      var x;
+    $(".text").css("pointer-events", "none");
+    $(".text").removeClass("focus");
+    $(".focus").blur();
+    $("#message").show();
+    $("#message").removeClass("hidden");
+    $("#message").text(m);
+    setTimeout(function() {
+        $(".message").fadeOut('slow');
+    }, 1500);
   }
+
 
 
   function setCookie(cname,cvalue,exdays) {
