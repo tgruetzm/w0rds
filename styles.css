@@ -1,21 +1,21 @@
 body{
-   min-height: 100vh;
-   min-width: 100vw;
+   min-height: 95vh;
+   min-width: 95vw;
    display: flex;
    flex-direction: column;
 }
 footer{
    margin-top: auto;
-   padding-bottom: 50px;
-   padding-top: 50px;
 }
 
 
 .text
 {
    width: 11vw;
+   max-width: 75px;
    height: 11vw;
-   font-size: 11vw;
+   max-height: 75px;
+   font-size: 9vw;
    text-transform:uppercase;
    text-align: center;
    display:inline-block;
@@ -36,7 +36,7 @@ footer{
 }
 
 p {
-   margin-top: 2rem;
+   margin-top: 2vh;
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-size: 200%;
    font-weight: bold;
@@ -48,7 +48,7 @@ p {
    margin-right: auto;
    text-align: center;
    vertical-align: middle;
-   width: 100vw;
+   width: 95vw;
 }
 
 .keyboardLine
@@ -57,7 +57,7 @@ p {
    margin-right: auto;
    text-align: center;
    vertical-align: middle;
-   width: 100vw;
+   width: 95vw;
 }
 
 .keyboardLetter
