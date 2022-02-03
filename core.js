@@ -78,30 +78,74 @@ function load()
             return false;
         submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text();
         //check exact positions
-        if(submittedWord.substring(0,1) == wxrd4[wordPos].substring(0,1))
+        var letter = submittedWord.substring(0,1);
+        if(letter == wxrd4[wordPos].substring(0,1))
+        {
             $(let0).addClass("validPos");
+            $("#"+letter).addClass("validPos");
+        }
         else if(wxrd4[wordPos].includes(submittedWord.substring(0,1)))
+        {
             $(let0).addClass("validLet");
+            if(!$("#"+letter).hasClass("validPos"))
+                $("#"+letter).addClass("validLet");
+        }
         else
+        {
             $(let0).addClass("invalid");
-        if(submittedWord.substring(1,2) == wxrd4[wordPos].substring(1,2))
+            $("#"+letter).addClass("invalid");
+        }
+        letter = submittedWord.substring(1,2);
+        if(letter == wxrd4[wordPos].substring(1,2))
+        {
             $(let1).addClass("validPos");
+            $("#"+letter).addClass("validPos");
+        }
         else if(wxrd4[wordPos].includes(submittedWord.substring(1,2)))
+        {
             $(let1).addClass("validLet");
+            if(!$("#"+letter).hasClass("validPos"))
+                $("#"+letter).addClass("validLet");
+        }
         else
+        {
             $(let1).addClass("invalid");
-        if(submittedWord.substring(2,3) == wxrd4[wordPos].substring(2,3))
+            $("#"+letter).addClass("invalid");
+        }
+        letter = submittedWord.substring(2,3);
+        if(letter == wxrd4[wordPos].substring(2,3))
+        {
             $(let2).addClass("validPos");
+            $("#"+letter).addClass("validPos");
+        }
         else if(wxrd4[wordPos].includes(submittedWord.substring(2,3)))
+        {
             $(let2).addClass("validLet");
+            if(!$("#"+letter).hasClass("validPos"))
+                $("#"+letter).addClass("validLet");
+        }
         else
+        {
             $(let2).addClass("invalid");
+            $("#"+letter).addClass("invalid");
+        }
+        letter = submittedWord.substring(3,4);
         if(submittedWord.substring(3,4) == wxrd4[wordPos].substring(3,4))
+        {
             $(let3).addClass("validPos");
+            $("#"+letter).addClass("validPos");
+        }
         else if(wxrd4[wordPos].includes(submittedWord.substring(3,4)))
+        {
             $(let3).addClass("validLet");
+            if(!$("#"+letter).hasClass("validPos"))
+                $("#"+letter).addClass("validLet");
+        }
         else
+        {
             $(let3).addClass("invalid");
+            $("#"+letter).addClass("invalid");
+        }
         
         
         $(let0).css("pointer-events", "none");
