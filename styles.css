@@ -18,7 +18,7 @@ footer{
    height: 11vw;
    font-size: 10vw;
    font-weight: bold;
-   margin: .25vw;
+   margin: .5vw;
 
    text-align: center;
    /*text-align: center;
@@ -80,7 +80,6 @@ p {
     max-height: 75px;
    */
    height: 16vw;
-   max-height: 75px;
    font-size: 3vw;
    
    background-color: #d8d8d8;
@@ -89,8 +88,10 @@ p {
    
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-weight: bold;
+   display: flex;
    text-align: center;
-   vertical-align: middle;
+   flex-direction: column;
+   justify-content: center;
    outline: none; 
 }
 

@@ -45,9 +45,13 @@ function load()
             $("#submit").click();
             return;
         }
-        else if(letter == "<-")
+        else if(letter == "<X")
         {
-            $(".focus").text("");
+            var focus = $(".focus");
+            focus.prev('.text').focus();
+            $(".text").removeClass("focus");
+            focus.prev('.text').addClass('focus');
+            focus.text("");
             return;
         }
         $(".focus").text(letter);
