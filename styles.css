@@ -17,8 +17,9 @@
 .clear {
    clear: left;
  }
-.text:focus {
-   border-color: #538d4e;
+
+.focus {
+   border-color: black;
 }
 
 p {

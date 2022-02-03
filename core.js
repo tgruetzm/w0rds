@@ -11,21 +11,38 @@ function load()
         if (event.keyCode === 13) {
             $("#submit").click();
         }
-        //if (event.keyCode >= 65 && event.keyCode <=90) {
+        //if (event.keyCode >= 65 && event.keyCode <=90) {//todo
             $(this).text(event.key.toUpperCase());
         //}
         });
+
+    //move focus forward and backwards
     $(".text").keyup(function () { //TODO change to not alpha
         if($(this).text().length === 1 && event.keyCode != 8) {
             $(this).next('.text').focus();
+            $(".text").removeClass("focus");
+            $(this).next('.text').addClass('focus');
         }
         else if ( event.keyCode === 8) {
             $(this).prev('.text').focus();
+            $(".text").removeClass("focus");
+            $(this).prev('.text').addClass('focus');
             $(this).text("");
         }
     });
+
+    //add focus when clicking a letter in a guess
+    $(".text").click(function () {
+        $(".text").removeClass("focus");
+        $(this).addClass("focus");
+    });
+    //enter letter on virtual key press
     $(".keyboardLetter").click(function () { 
-        $(document.activeElement).text("x");
+        $(".focus").text($(this).text());
+        var curFocusE = $(".focus");
+        curFocusE.next('.text').focus();
+        $(".text").removeClass("focus");
+        curFocusE.next('.text').addClass('focus');
     });
 }
 
