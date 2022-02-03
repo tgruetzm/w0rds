@@ -64,7 +64,7 @@ p {
 .keyboardLetter
 {
    width: 8vw;
-   max-width: 50px;;
+   max-width: 50px;
    height: 16vw;
    max-height: 75px;
    background-color: #939598;
@@ -75,6 +75,17 @@ p {
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-weight: bold;
    text-align: center;
+}
+
+.keyboardLetterWide
+{
+   width: 9vw;
+   max-width: 60px;
+}
+.keyboardLetterExtraWide
+{
+   width: 15vw;
+   max-width: 100px;
 }
 
 .disabled   
