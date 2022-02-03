@@ -26,6 +26,7 @@ footer{
    border-width: 5px;
    border-style: solid;
    border-color: #939598;
+   outline: none; 
    
 }
 
@@ -76,6 +77,7 @@ p {
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-weight: bold;
    text-align: center;
+   outline: none; 
 }
 
 .keyboardLetterWide
