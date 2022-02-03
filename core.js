@@ -1,4 +1,6 @@
 var ValidScrabbles = new Set();
+var WRDL5 = new Array();
+var wordPosToday;//this needs work to pick daily word
 
 function load() 
 {
@@ -9,6 +11,19 @@ function load()
             ValidScrabbles.add(data[key]);
         }
     });
+
+    //load 5 letter words to pick from
+    $.getJSON("wrdl5.json", function(data){
+        for (var key in data){
+            WRDL5.push(data[key]);
+        }
+        //pick for today
+        var today = new Date();
+        //today.setHours(today.geth)
+        var t = today.getFullYear().toString() + today.getMonth().toString() + today.getDate().toString();
+        wordPosToday = (parseInt(t)*10000) % WRDL5.length;
+    });
+
     //let guessNum = getCookie("guessNum");
     //if (guessNum == "") 
         setCookie("guessNum", "0", 1);
@@ -16,6 +31,9 @@ function load()
     //if(wxrd == "")
         setCookie("wordLen", "5", 1);
     
+    //focus on first letter
+    $("#g0l0").focus();
+
     $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
             $("#submit").click();
@@ -106,15 +124,10 @@ function load()
     });
 }
 
-
-
-  const wxrd4 = ["AREA","UNCLE","AUTO","AWAY"];
-
   function submitWord()
   {
     var guessNum = getCookie("guessNum");
     var wordLen = getCookie("wordLen");
-    var wordPos = 1;//this needs work to pick daily word
     const maxGuess = 5;
     var submittedWord;
 
@@ -155,12 +168,13 @@ function load()
 
     //check exact positions
     var letter = submittedWord.substring(0,1);
-    if(letter == wxrd4[wordPos].substring(0,1))
+    var m = WRDL5[wordPosToday].toUpperCase();
+    if(letter == m.substring(0,1))
     {
         $(let0).addClass("validPos");
         $("#"+letter).addClass("validPos");
     }
-    else if(wxrd4[wordPos].includes(submittedWord.substring(0,1)))
+    else if(m.includes(submittedWord.substring(0,1)))
     {
         $(let0).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
@@ -172,12 +186,12 @@ function load()
         $("#"+letter).addClass("invalid");
     }
     letter = submittedWord.substring(1,2);
-    if(letter == wxrd4[wordPos].substring(1,2))
+    if(letter == m.substring(1,2))
     {
         $(let1).addClass("validPos");
         $("#"+letter).addClass("validPos");
     }
-    else if(wxrd4[wordPos].includes(submittedWord.substring(1,2)))
+    else if(m.includes(submittedWord.substring(1,2)))
     {
         $(let1).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
@@ -189,12 +203,12 @@ function load()
         $("#"+letter).addClass("invalid");
     }
     letter = submittedWord.substring(2,3);
-    if(letter == wxrd4[wordPos].substring(2,3))
+    if(letter == m.substring(2,3))
     {
         $(let2).addClass("validPos");
         $("#"+letter).addClass("validPos");
     }
-    else if(wxrd4[wordPos].includes(submittedWord.substring(2,3)))
+    else if(m.includes(submittedWord.substring(2,3)))
     {
         $(let2).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
@@ -206,12 +220,12 @@ function load()
         $("#"+letter).addClass("invalid");
     }
     letter = submittedWord.substring(3,4);
-    if(submittedWord.substring(3,4) == wxrd4[wordPos].substring(3,4))
+    if(submittedWord.substring(3,4) == m.substring(3,4))
     {
         $(let3).addClass("validPos");
         $("#"+letter).addClass("validPos");
     }
-    else if(wxrd4[wordPos].includes(submittedWord.substring(3,4)))
+    else if(m.includes(submittedWord.substring(3,4)))
     {
         $(let3).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
@@ -224,12 +238,12 @@ function load()
     }
 
     letter = submittedWord.substring(4,5);
-    if(submittedWord.substring(4,5) == wxrd4[wordPos].substring(4,5))
+    if(submittedWord.substring(4,5) == m.substring(4,5))
     {
         $(let4).addClass("validPos");
         $("#"+letter).addClass("validPos");
     }
-    else if(wxrd4[wordPos].includes(submittedWord.substring(4,5)))
+    else if(m.includes(submittedWord.substring(4,5)))
     {
         $(let4).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
@@ -242,9 +256,9 @@ function load()
     }
 
     //winner!!
-    if(submittedWord == wxrd4[wordPos]){
+    if(submittedWord == m){
         if(guessNum == 0)
-            showMessage("Excellent!");
+            showMessage("What the?");
         if(guessNum == 1)
             showMessage("Excellent!");
         if(guessNum == 2)
@@ -291,7 +305,8 @@ function load()
 
   function setCookie(cname,cvalue,exdays) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    //d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setHours(24,0,0,0);
     let expires = "expires=" + d.toUTCString();
     
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
