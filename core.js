@@ -1,7 +1,7 @@
 function load() 
 {
-    let guessNum = getCookie("guessNum");
-    if (guessNum == "") 
+    //let guessNum = getCookie("guessNum");
+    //if (guessNum == "") 
         setCookie("guessNum", "0", 1);
     let wxrd = getCookie("wxrd");
     if(wxrd == "")
@@ -60,7 +60,7 @@ function load()
 
 
 
-  const wxrd4 = ["area","army","auto","away"];
+  const wxrd4 = ["AREA","ARMY","AUTO","AWAY"];
 
   function submitWord()
   {
