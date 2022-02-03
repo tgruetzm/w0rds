@@ -99,7 +99,7 @@ function load()
 
 
 
-  const wxrd4 = ["AREA","ARMY","AUTO","AWAY"];
+  const wxrd4 = ["AREA","KIND","AUTO","AWAY"];
 
   function submitWord()
   {
