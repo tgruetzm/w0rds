@@ -1,6 +1,6 @@
 body{
    min-height: 80vh;
-   min-width: 95vw;
+   min-width: 98vw;
    display: flex;
    flex-direction: column;
 }
@@ -57,7 +57,7 @@ p {
    margin-right: auto;
    text-align: center;
    vertical-align: middle;
-   width: 95vw;
+   width: 98vw;
 }
 
 .keyboardLetter
