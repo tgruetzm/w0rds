@@ -68,7 +68,7 @@ function load()
     var wxrd = getCookie("wxrd");
     var wordPos = 1;//this needs work to pick daily word
     var submittedWord;
- 
+
         var let0 = "#g" + guessNum + "l0";
         var let1 = "#g" + guessNum + "l1";
         var let2 = "#g" + guessNum + "l2";
