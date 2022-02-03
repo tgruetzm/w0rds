@@ -3,10 +3,10 @@ function load()
     //let guessNum = getCookie("guessNum");
     //if (guessNum == "") 
         setCookie("guessNum", "0", 1);
-    let wxrd = getCookie("wxrd");
-    if(wxrd == "")
-        setCookie("wxrd", "4", 1);
-
+    //let wxrd = getCookie("wxrd");
+    //if(wxrd == "")
+        setCookie("wordLen", "5", 1);
+    
     $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
             $("#submit").click();
@@ -99,111 +99,143 @@ function load()
 
 
 
-  const wxrd4 = ["AREA","KIND","AUTO","AWAY"];
+  const wxrd4 = ["AREA","RAPID","AUTO","AWAY"];
 
   function submitWord()
   {
     var guessNum = getCookie("guessNum");
-    var wxrd = getCookie("wxrd");
+    var wordLen = getCookie("wordLen");
     var wordPos = 1;//this needs work to pick daily word
+    const maxGuess = 5;
     var submittedWord;
 
-        var let0 = "#g" + guessNum + "l0";
-        var let1 = "#g" + guessNum + "l1";
-        var let2 = "#g" + guessNum + "l2";
-        var let3 = "#g" + guessNum + "l3";
+    var let0 = "#g" + guessNum + "l0";
+    var let1 = "#g" + guessNum + "l1";
+    var let2 = "#g" + guessNum + "l2";
+    var let3 = "#g" + guessNum + "l3";
+    var let4 = "#g" + guessNum + "l4";
 
-        if($(let0).text() == "" || $(let1).text() == "" || $(let2).text() == "" || $(let3).text() == "")
-            return false;
-        submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text();
-        //check exact positions
-        var letter = submittedWord.substring(0,1);
-        if(letter == wxrd4[wordPos].substring(0,1))
-        {
-            $(let0).addClass("validPos");
-            $("#"+letter).addClass("validPos");
-        }
-        else if(wxrd4[wordPos].includes(submittedWord.substring(0,1)))
-        {
-            $(let0).addClass("validLet");
-            if(!$("#"+letter).hasClass("validPos"))
-                $("#"+letter).addClass("validLet");
-        }
-        else
-        {
-            $(let0).addClass("invalid");
-            $("#"+letter).addClass("invalid");
-        }
-        letter = submittedWord.substring(1,2);
-        if(letter == wxrd4[wordPos].substring(1,2))
-        {
-            $(let1).addClass("validPos");
-            $("#"+letter).addClass("validPos");
-        }
-        else if(wxrd4[wordPos].includes(submittedWord.substring(1,2)))
-        {
-            $(let1).addClass("validLet");
-            if(!$("#"+letter).hasClass("validPos"))
-                $("#"+letter).addClass("validLet");
-        }
-        else
-        {
-            $(let1).addClass("invalid");
-            $("#"+letter).addClass("invalid");
-        }
-        letter = submittedWord.substring(2,3);
-        if(letter == wxrd4[wordPos].substring(2,3))
-        {
-            $(let2).addClass("validPos");
-            $("#"+letter).addClass("validPos");
-        }
-        else if(wxrd4[wordPos].includes(submittedWord.substring(2,3)))
-        {
-            $(let2).addClass("validLet");
-            if(!$("#"+letter).hasClass("validPos"))
-                $("#"+letter).addClass("validLet");
-        }
-        else
-        {
-            $(let2).addClass("invalid");
-            $("#"+letter).addClass("invalid");
-        }
-        letter = submittedWord.substring(3,4);
-        if(submittedWord.substring(3,4) == wxrd4[wordPos].substring(3,4))
-        {
-            $(let3).addClass("validPos");
-            $("#"+letter).addClass("validPos");
-        }
-        else if(wxrd4[wordPos].includes(submittedWord.substring(3,4)))
-        {
-            $(let3).addClass("validLet");
-            if(!$("#"+letter).hasClass("validPos"))
-                $("#"+letter).addClass("validLet");
-        }
-        else
-        {
-            $(let3).addClass("invalid");
-            $("#"+letter).addClass("invalid");
-        }
-        
-        
-        $(let0).css("pointer-events", "none");
-        $(let1).css("pointer-events", "none");
-        $(let2).css("pointer-events", "none");
-        $(let3).css("pointer-events", "none");
+    //if anything is blank don't submit
+    if($(let0).text() == "" || $(let1).text() == "" || $(let2).text() == "" || $(let3).text() == "" || $(let4).text() == "")
+        return false;
 
+    //we're at the last row, unfocus
+    if(parseInt(guessNum)+1 > maxGuess)
+        $(".focus").blur();
+    
+    //focus on next row letter 0
+    var nextLet = "#g" + (parseInt(guessNum)+1) + "l0";
+    $(".text").removeClass("focus");
+    $(nextLet).addClass('focus');
+    $(nextLet).focus();
 
-        guessNum = parseInt(guessNum) + 1;
-        setCookie("guessNum", guessNum, 1);
-        let0 = "#g" + guessNum + "l0";
-        let1 = "#g" + guessNum + "l1";
-        let2 = "#g" + guessNum + "l2";
-        let3 = "#g" + guessNum + "l3";
+    submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text();
 
-        $(let0).css("pointer-events", "auto");
-        $(let1).css("pointer-events", "auto");
-        $(let2).css("pointer-events", "auto");
-        $(let3).css("pointer-events", "auto");
+    //check exact positions
+    var letter = submittedWord.substring(0,1);
+    if(letter == wxrd4[wordPos].substring(0,1))
+    {
+        $(let0).addClass("validPos");
+        $("#"+letter).addClass("validPos");
+    }
+    else if(wxrd4[wordPos].includes(submittedWord.substring(0,1)))
+    {
+        $(let0).addClass("validLet");
+        if(!$("#"+letter).hasClass("validPos"))
+            $("#"+letter).addClass("validLet");
+    }
+    else
+    {
+        $(let0).addClass("invalid");
+        $("#"+letter).addClass("invalid");
+    }
+    letter = submittedWord.substring(1,2);
+    if(letter == wxrd4[wordPos].substring(1,2))
+    {
+        $(let1).addClass("validPos");
+        $("#"+letter).addClass("validPos");
+    }
+    else if(wxrd4[wordPos].includes(submittedWord.substring(1,2)))
+    {
+        $(let1).addClass("validLet");
+        if(!$("#"+letter).hasClass("validPos"))
+            $("#"+letter).addClass("validLet");
+    }
+    else
+    {
+        $(let1).addClass("invalid");
+        $("#"+letter).addClass("invalid");
+    }
+    letter = submittedWord.substring(2,3);
+    if(letter == wxrd4[wordPos].substring(2,3))
+    {
+        $(let2).addClass("validPos");
+        $("#"+letter).addClass("validPos");
+    }
+    else if(wxrd4[wordPos].includes(submittedWord.substring(2,3)))
+    {
+        $(let2).addClass("validLet");
+        if(!$("#"+letter).hasClass("validPos"))
+            $("#"+letter).addClass("validLet");
+    }
+    else
+    {
+        $(let2).addClass("invalid");
+        $("#"+letter).addClass("invalid");
+    }
+    letter = submittedWord.substring(3,4);
+    if(submittedWord.substring(3,4) == wxrd4[wordPos].substring(3,4))
+    {
+        $(let3).addClass("validPos");
+        $("#"+letter).addClass("validPos");
+    }
+    else if(wxrd4[wordPos].includes(submittedWord.substring(3,4)))
+    {
+        $(let3).addClass("validLet");
+        if(!$("#"+letter).hasClass("validPos"))
+            $("#"+letter).addClass("validLet");
+    }
+    else
+    {
+        $(let3).addClass("invalid");
+        $("#"+letter).addClass("invalid");
+    }
+
+    letter = submittedWord.substring(4,5);
+    if(submittedWord.substring(4,5) == wxrd4[wordPos].substring(4,5))
+    {
+        $(let4).addClass("validPos");
+        $("#"+letter).addClass("validPos");
+    }
+    else if(wxrd4[wordPos].includes(submittedWord.substring(4,5)))
+    {
+        $(let4).addClass("validLet");
+        if(!$("#"+letter).hasClass("validPos"))
+            $("#"+letter).addClass("validLet");
+    }
+    else
+    {
+        $(let4).addClass("invalid");
+        $("#"+letter).addClass("invalid");
+    }
+
+    //winner!!
+    if(submittedWord == wxrd4[wordPos]){
+        $(".text").css("pointer-events", "none");
+        $(".text").removeClass("focus");
+        $(".focus").blur();
+        return;
+    }
+    
+    //disable focusing on current elements
+    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
+
+    guessNum = parseInt(guessNum) + 1;
+    setCookie("guessNum", guessNum, 1);
+
+    //enable focusing on next elements
+    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "auto");
+
   }
 
 
