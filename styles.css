@@ -85,11 +85,6 @@ p {
    outline: none; 
 }
 
-.keyboardLetterWide
-{
-   width: 9vw;
-   max-width: 60px;
-}
 .keyboardLetterExtraWide
 {
    width: 13vw;
