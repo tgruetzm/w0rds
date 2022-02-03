@@ -25,6 +25,7 @@ footer{
    border-width: 5px;
    border-style: solid;
    border-color: #939598;
+   -webkit-tap-highlight-color: transparent;
    
 }
 
