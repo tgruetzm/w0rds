@@ -16,7 +16,8 @@ footer{
    max-width: 75px;
    height: 11vw;
    max-height: 75px;
-   font-size: 9vw;
+   font-size: 4em;
+   
    text-transform:uppercase;
    text-align: center;
    display:inline-block;
@@ -25,7 +26,6 @@ footer{
    border-width: 5px;
    border-style: solid;
    border-color: #939598;
-   -webkit-tap-highlight-color: transparent;
    
 }
 
