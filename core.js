@@ -1,6 +1,8 @@
 var ValidScrabbles = new Set();
 var WRDL5 = new Array();
-var wordPosToday;//this needs work to pick daily word
+var WRDL6 = new Array();
+var WRDL7 = new Array();
+var currentWord;
 
 function load() 
 {
@@ -17,11 +19,22 @@ function load()
         for (var key in data){
             WRDL5.push(data[key]);
         }
-        //pick for today
-        var today = new Date();
-        //today.setHours(today.geth)
-        var t = today.getFullYear().toString() + today.getMonth().toString() + today.getDate().toString();
-        wordPosToday = (parseInt(t)*10000) % WRDL5.length;
+        //pick the word
+        currentWord = WRDL5[getTodaysIndex()].toUpperCase();;
+    });
+
+    //load 6 letter words to pick from
+    $.getJSON("wrdl6.json", function(data){
+        for (var key in data){
+            WRDL6.push(data[key]);
+        }
+    });
+
+    //load 7 letter words to pick from
+    $.getJSON("wrdl7.json", function(data){
+        for (var key in data){
+            WRDL7.push(data[key]);
+        }
     });
 
     //let guessNum = getCookie("guessNum");
@@ -134,12 +147,15 @@ function load()
         setCookie("wordLen", wordLen);
         if(wordLen == 6)
         {
-            $("#g0l5").removeClass("hidden");
-            $("#g1l5").removeClass("hidden");
-            $("#g2l5").removeClass("hidden");
-            $("#g3l5").removeClass("hidden");
-            $("#g4l5").removeClass("hidden");
-            $("#g5l5").removeClass("hidden");
+            $(".c5").removeClass("hidden");
+            //pick 6 letter word
+            currentWord = WRDL6[getTodaysIndex()].toUpperCase();;
+        }
+        else if(wordLen == 7)
+        {
+            $(".c6").removeClass("hidden");
+            //pick 7 letter word
+            currentWord = WRDL7[getTodaysIndex()].toUpperCase();;
         }
         setCookie("guessNum", 0);
         //enable focusing on elements
@@ -162,27 +178,28 @@ function load()
     var let2 = "#g" + guessNum + "l2";
     var let3 = "#g" + guessNum + "l3";
     var let4 = "#g" + guessNum + "l4";
+    var let5 = "#g" + guessNum + "l5";
+    var let6 = "#g" + guessNum + "l6";
 
     //if anything is blank don't submit
     if($(let0).text() == "" || $(let1).text() == "" || $(let2).text() == "" || $(let3).text() == "" || $(let4).text() == "")
+        return false;
+    if(wordLen > 5 && $(let5).text() == "")
+        return false;
+    if(wordLen > 6 && $(let6).text() == "")
         return false;
 
     //we're at the last row, unfocus
     if(parseInt(guessNum)+1 > maxGuess)
         $(".focus").blur();
 
-    submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text();
+    submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text() + $(let5).text() + $(let6).text();
 
     
     //validate word so mother doesn't cheat
     if(!ValidScrabbles.has(submittedWord))
     {
-        $("#message").show();
-        $("#message").removeClass("hidden");
-        $("#message").text("Invalid Word!");
-        setTimeout(function() {
-            $(".message").fadeOut('slow');
-        }, 1000);
+        showMessage("Invalid Word!");
         return;
     }
 
@@ -193,17 +210,18 @@ function load()
     $(nextLet).focus();
 
     //check letters in submitted word
-    var m = WRDL5[wordPosToday].toUpperCase();
-    
-    
-    processLetter(m,submittedWord,let0,0,1);
-    processLetter(m,submittedWord,let1,1,2);
-    processLetter(m,submittedWord,let2,2,3);
-    processLetter(m,submittedWord,let3,3,4);
-    processLetter(m,submittedWord,let4,4,5);
+    processLetter(currentWord,submittedWord,let0,0,1);
+    processLetter(currentWord,submittedWord,let1,1,2);
+    processLetter(currentWord,submittedWord,let2,2,3);
+    processLetter(currentWord,submittedWord,let3,3,4);
+    processLetter(currentWord,submittedWord,let4,4,5);
+    if(wordLen > 5)
+        processLetter(currentWord,submittedWord,let5,5,6);
+    if(wordLen > 6)
+        processLetter(currentWord,submittedWord,let6,6,7);
 
     //winner!!
-    if(submittedWord == m){
+    if(submittedWord == currentWord){
         if(guessNum == 0)
             showMessage("What the?");
         if(guessNum == 1)
@@ -274,6 +292,14 @@ function load()
     setTimeout(function() {
         $(".message").fadeOut('slow');
     }, 1500);
+  }
+
+
+  function getTodaysIndex()
+  {
+    var today = new Date();
+    var t = today.getFullYear().toString() + today.getMonth().toString() + today.getDate().toString();
+    return (parseInt(t)*10000) % WRDL5.length;
   }
 
 
