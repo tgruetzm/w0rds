@@ -9,6 +9,11 @@ footer{
    margin-top: auto;
 }
 
+.header
+{
+   height: 5vw;
+}
+
 
 .text
 {
@@ -143,4 +148,23 @@ p {
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-weight: bold;
    text-align: center;
+}
+
+.button
+{
+   width: 25vw;
+   height: 10vw;
+   font-size: 3vw;
+   
+   background-color: #d8d8d8;
+   margin: 3vw;
+   border-radius: .75vw;
+   
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-weight: bold;
+   display: flex;
+   text-align: center;
+   flex-direction: column;
+   justify-content: center;
+   outline: none; 
 }

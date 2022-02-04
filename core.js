@@ -26,10 +26,10 @@ function load()
 
     //let guessNum = getCookie("guessNum");
     //if (guessNum == "") 
-        setCookie("guessNum", "0", 1);
+        setCookie("guessNum", "0");
     //let wxrd = getCookie("wxrd");
     //if(wxrd == "")
-        setCookie("wordLen", "5", 1);
+        setCookie("wordLen", "5");
     
     //focus on first letter
     $("#g0l0").focus();
@@ -122,6 +122,32 @@ function load()
             curFocus.next('.text').addClass('focus');
         }
     });
+
+    //continue button handler
+    $("#continue").click(function () {
+        $("#continue").hide();
+        $(".text").text("");
+        $(".text").removeClass("validPos validLet invalid");
+        $(".keyboardLetter").removeClass("validPos validLet invalid");
+        var wordLen = getCookie("wordLen");
+        wordLen = parseInt(wordLen) + 1;
+        setCookie("wordLen", wordLen);
+        if(wordLen == 6)
+        {
+            $("#g0l5").removeClass("hidden");
+            $("#g1l5").removeClass("hidden");
+            $("#g2l5").removeClass("hidden");
+            $("#g3l5").removeClass("hidden");
+            $("#g4l5").removeClass("hidden");
+            $("#g5l5").removeClass("hidden");
+        }
+        setCookie("guessNum", 0);
+        //enable focusing on elements
+        $("#line0 > div").css("pointer-events", "auto");
+
+
+    });
+
 }
 
   function submitWord()
@@ -166,19 +192,23 @@ function load()
     $(nextLet).addClass('focus');
     $(nextLet).focus();
 
-    //check exact positions
+    //check letters in submitted word
     var letter = submittedWord.substring(0,1);
     var m = WRDL5[wordPosToday].toUpperCase();
     if(letter == m.substring(0,1))
     {
         $(let0).addClass("validPos");
+        $("#"+letter).removeClass("validLet invalid");
         $("#"+letter).addClass("validPos");
     }
     else if(m.includes(submittedWord.substring(0,1)))
     {
         $(let0).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
+        {
+            $("#"+letter).removeClass("invalid");
             $("#"+letter).addClass("validLet");
+        }
     }
     else
     {
@@ -189,13 +219,17 @@ function load()
     if(letter == m.substring(1,2))
     {
         $(let1).addClass("validPos");
+        $("#"+letter).removeClass("validLet invalid");
         $("#"+letter).addClass("validPos");
     }
     else if(m.includes(submittedWord.substring(1,2)))
     {
         $(let1).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
+        {
+            $("#"+letter).removeClass("invalid");
             $("#"+letter).addClass("validLet");
+        }
     }
     else
     {
@@ -206,13 +240,17 @@ function load()
     if(letter == m.substring(2,3))
     {
         $(let2).addClass("validPos");
+        $("#"+letter).removeClass("validLet invalid");
         $("#"+letter).addClass("validPos");
     }
     else if(m.includes(submittedWord.substring(2,3)))
     {
         $(let2).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
+        {
+            $("#"+letter).removeClass("invalid");
             $("#"+letter).addClass("validLet");
+        }
     }
     else
     {
@@ -223,13 +261,17 @@ function load()
     if(submittedWord.substring(3,4) == m.substring(3,4))
     {
         $(let3).addClass("validPos");
+        $("#"+letter).removeClass("validLet invalid");
         $("#"+letter).addClass("validPos");
     }
     else if(m.includes(submittedWord.substring(3,4)))
     {
         $(let3).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
+        {
+            $("#"+letter).removeClass("invalid");
             $("#"+letter).addClass("validLet");
+        }
     }
     else
     {
@@ -241,13 +283,17 @@ function load()
     if(submittedWord.substring(4,5) == m.substring(4,5))
     {
         $(let4).addClass("validPos");
+        $("#"+letter).removeClass("validLet invalid");
         $("#"+letter).addClass("validPos");
     }
     else if(m.includes(submittedWord.substring(4,5)))
     {
         $(let4).addClass("validLet");
         if(!$("#"+letter).hasClass("validPos"))
+        {
+            $("#"+letter).removeClass("invalid");
             $("#"+letter).addClass("validLet");
+        }
     }
     else
     {
@@ -269,6 +315,8 @@ function load()
             showMessage("Satisfactory you are!");
         if(guessNum == 5)
             showMessage("That was rough!");
+        $("#continue").removeClass("hidden");
+        $("#continue").show();
         return;
     }
     else if(parseInt(guessNum)+1 > maxGuess)
@@ -280,7 +328,7 @@ function load()
     $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
 
     guessNum = parseInt(guessNum) + 1;
-    setCookie("guessNum", guessNum, 1);
+    setCookie("guessNum", guessNum);
 
     //enable focusing on next elements
     $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "auto");
@@ -303,7 +351,7 @@ function load()
 
 
 
-  function setCookie(cname,cvalue,exdays) {
+  function setCookie(cname,cvalue) {
     const d = new Date();
     //d.setTime(d.getTime() + (exdays*24*60*60*1000));
     d.setHours(24,0,0,0);
