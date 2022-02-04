@@ -193,113 +193,14 @@ function load()
     $(nextLet).focus();
 
     //check letters in submitted word
-    var letter = submittedWord.substring(0,1);
     var m = WRDL5[wordPosToday].toUpperCase();
-    if(letter == m.substring(0,1))
-    {
-        $(let0).addClass("validPos");
-        $("#"+letter).removeClass("validLet invalid");
-        $("#"+letter).addClass("validPos");
-    }
-    else if(m.includes(submittedWord.substring(0,1)))
-    {
-        $(let0).addClass("validLet");
-        if(!$("#"+letter).hasClass("validPos"))
-        {
-            $("#"+letter).removeClass("invalid");
-            $("#"+letter).addClass("validLet");
-        }
-    }
-    else
-    {
-        $(let0).addClass("invalid");
-        $("#"+letter).addClass("invalid");
-    }
-    letter = submittedWord.substring(1,2);
-    if(letter == m.substring(1,2))
-    {
-        $(let1).addClass("validPos");
-        $("#"+letter).removeClass("validLet invalid");
-        $("#"+letter).addClass("validPos");
-    }
-    else if(m.includes(submittedWord.substring(1,2)))
-    {
-        $(let1).addClass("validLet");
-        if(!$("#"+letter).hasClass("validPos"))
-        {
-            $("#"+letter).removeClass("invalid");
-            $("#"+letter).addClass("validLet");
-        }
-    }
-    else
-    {
-        $(let1).addClass("invalid");
-        $("#"+letter).addClass("invalid");
-    }
-    letter = submittedWord.substring(2,3);
-    if(letter == m.substring(2,3))
-    {
-        $(let2).addClass("validPos");
-        $("#"+letter).removeClass("validLet invalid");
-        $("#"+letter).addClass("validPos");
-    }
-    else if(m.includes(submittedWord.substring(2,3)))
-    {
-        $(let2).addClass("validLet");
-        if(!$("#"+letter).hasClass("validPos"))
-        {
-            $("#"+letter).removeClass("invalid");
-            $("#"+letter).addClass("validLet");
-        }
-    }
-    else
-    {
-        $(let2).addClass("invalid");
-        $("#"+letter).addClass("invalid");
-    }
-    letter = submittedWord.substring(3,4);
-    if(submittedWord.substring(3,4) == m.substring(3,4))
-    {
-        $(let3).addClass("validPos");
-        $("#"+letter).removeClass("validLet invalid");
-        $("#"+letter).addClass("validPos");
-    }
-    else if(m.includes(submittedWord.substring(3,4)))
-    {
-        $(let3).addClass("validLet");
-        if(!$("#"+letter).hasClass("validPos"))
-        {
-            $("#"+letter).removeClass("invalid");
-            $("#"+letter).addClass("validLet");
-        }
-    }
-    else
-    {
-        $(let3).addClass("invalid");
-        $("#"+letter).addClass("invalid");
-    }
-
-    letter = submittedWord.substring(4,5);
-    if(submittedWord.substring(4,5) == m.substring(4,5))
-    {
-        $(let4).addClass("validPos");
-        $("#"+letter).removeClass("validLet invalid");
-        $("#"+letter).addClass("validPos");
-    }
-    else if(m.includes(submittedWord.substring(4,5)))
-    {
-        $(let4).addClass("validLet");
-        if(!$("#"+letter).hasClass("validPos"))
-        {
-            $("#"+letter).removeClass("invalid");
-            $("#"+letter).addClass("validLet");
-        }
-    }
-    else
-    {
-        $(let4).addClass("invalid");
-        $("#"+letter).addClass("invalid");
-    }
+    
+    
+    processLetter(m,submittedWord,let0,0,1);
+    processLetter(m,submittedWord,let1,1,2);
+    processLetter(m,submittedWord,let2,2,3);
+    processLetter(m,submittedWord,let3,3,4);
+    processLetter(m,submittedWord,let4,4,5);
 
     //winner!!
     if(submittedWord == m){
@@ -333,6 +234,32 @@ function load()
     //enable focusing on next elements
     $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "auto");
 
+  }
+
+
+  function processLetter(mWord, submittedWord, letterDiv, s, e)
+  {
+    var subLetter = submittedWord.substring(s,e);
+    if(subLetter == mWord.substring(s,e))
+    {
+        $(letterDiv).addClass("validPos");
+        $("#"+subLetter).removeClass("validLet invalid");
+        $("#"+subLetter).addClass("validPos");
+    }
+    else if(mWord.includes(submittedWord.substring(s,e)))
+    {
+        $(letterDiv).addClass("validLet");
+        if(!$("#"+subLetter).hasClass("validPos"))
+        {
+            $("#"+subLetter).removeClass("invalid");
+            $("#"+subLetter).addClass("validLet");
+        }
+    }
+    else
+    {
+        $(letterDiv).addClass("invalid");
+        $("#"+subLetter).addClass("invalid");
+    }
   }
 
 
