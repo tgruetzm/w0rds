@@ -222,6 +222,9 @@ function load()
 
     //winner!!
     if(submittedWord == currentWord){
+        $(".text").css("pointer-events", "none");
+        $(".text").removeClass("focus");
+        $(".focus").blur();
         if(guessNum == 0)
             showMessage("What the?");
         if(guessNum == 1)
@@ -234,8 +237,11 @@ function load()
             showMessage("Satisfactory you are!");
         if(guessNum == 5)
             showMessage("That was rough!");
-        $("#continue").removeClass("hidden");
-        $("#continue").show();
+        if(wordLen < 7)
+        {
+            $("#continue").removeClass("hidden");
+            $("#continue").show();
+        }
         return;
     }
     else if(parseInt(guessNum)+1 > maxGuess)
@@ -283,9 +289,6 @@ function load()
 
   function showMessage(m)
   {
-    $(".text").css("pointer-events", "none");
-    $(".text").removeClass("focus");
-    $(".focus").blur();
     $("#message").show();
     $("#message").removeClass("hidden");
     $("#message").text(m);
