@@ -47,8 +47,6 @@ function load()
         setCurrentWord(5);
     } 
         
-    
-    let currentWord = getCookie("currentWord");
     for(let i = 0; i <guessNum; i++)
     {
         let word = getCookie("word"+ i);
