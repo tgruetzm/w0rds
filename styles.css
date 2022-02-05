@@ -40,7 +40,7 @@ footer{
 
 .textFirstRow
 {
-   pointer-events :auto;
+   /*pointer-events :auto;*/
 }
 .line
 {
