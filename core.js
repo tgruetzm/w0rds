@@ -20,7 +20,7 @@ function load()
             WRDL5.push(data[key]);
         }
         //pick the word
-        currentWord = WRDL5[getTodaysIndex()].toUpperCase();;
+        currentWord = WRDL5[getTodaysIndex(WRDL5.length)].toUpperCase();;
     });
 
     //load 6 letter words to pick from
@@ -149,13 +149,13 @@ function load()
         {
             $(".c5").removeClass("hidden");
             //pick 6 letter word
-            currentWord = WRDL6[getTodaysIndex()].toUpperCase();;
+            currentWord = WRDL6[getTodaysIndex(WRDL6.length)].toUpperCase();;
         }
         else if(wordLen == 7)
         {
             $(".c6").removeClass("hidden");
             //pick 7 letter word
-            currentWord = WRDL7[getTodaysIndex()].toUpperCase();;
+            currentWord = WRDL7[getTodaysIndex(WRDL7.length)].toUpperCase();;
         }
         setCookie("guessNum", 0);
         //enable focusing on elements
@@ -298,11 +298,11 @@ function load()
   }
 
 
-  function getTodaysIndex()
+  function getTodaysIndex(length)
   {
     var today = new Date();
-    var t = today.getFullYear().toString() + today.getMonth().toString() + today.getDate().toString();
-    return (parseInt(t)*10000) % WRDL5.length;
+    var t = today.getFullYear() * today.getMonth() * today.getDate();
+    return (t) % length;
   }
 
 
