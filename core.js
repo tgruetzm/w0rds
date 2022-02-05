@@ -160,6 +160,10 @@ function load()
         setCookie("guessNum", 0);
         //enable focusing on elements
         $("#line0 > div").css("pointer-events", "auto");
+        var firstLetter = "#g0l0";
+        $(".text").removeClass("focus");
+        $(firstLetter).addClass('focus');
+        $(firstLetter).focus();
 
 
     });
@@ -302,6 +306,7 @@ function load()
   {
     var today = new Date();
     var t = today.getFullYear() * today.getMonth() * today.getDate();
+    //t = 2022*1*4;
     return (t) % length;
   }
 
