@@ -16,14 +16,27 @@ var WRDL7 = new Array();
         for (var key in data){
             WRDL5.push(data[key]);
         }
-        //pick the word
-        setCurrentWord(5);
+        
+    }).done(function( data ) {
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 5)
+        {
+            setCurrentWord(5);
+            finishLoad();
+        }
     });
 
     //load 6 letter words to pick from
     $.getJSON("wrdl6.json", function(data){
         for (var key in data){
             WRDL6.push(data[key]);
+        }
+    }).done(function( data ) {
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 6)
+        {
+            setCurrentWord(6);
+            finishLoad();
         }
     });
 
@@ -32,24 +45,27 @@ var WRDL7 = new Array();
         for (var key in data){
             WRDL7.push(data[key]);
         }
+    }).done(function( data ) {
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 7){
+            setCurrentWord(7);
+            finishLoad();
+        }
     });
 
-function load() 
-{
 
+function finishLoad()
+{
     let guessNum = getCookie("guessNum");
     let wordLen = getCookie("wordLen");
     let currentWord = getCookie("currentWord");
-    if (guessNum == "")//cookies have expired or user is new
-    {
-        setCookie("guessNum", "0");
-        setCookie("wordLen", "5");
-        setCurrentWord(5);
-    } 
-        
+    let word;
     for(let i = 0; i <guessNum; i++)
     {
-        let word = getCookie("word"+ i);
+        word = getCookie("word"+ i);
+        if(word == currentWord && wordLen < 7)
+            showContinue();
+        
         for(let j = 0; j < wordLen; j++)
         {
             var letterDiv = "#g" + i + "l" + j;
@@ -58,19 +74,36 @@ function load()
         }
         
     }
-    if(wordLen == 6)
+    //if final word is not current, focus on next line
+    if(word != currentWord)
+    {
+        //focus on next line, first letter
+        $("#line" + guessNum + " > div").css("pointer-events", "auto");
+        $("#g"+guessNum+"l0").focus();
+        $("#g"+guessNum+"l0").addClass('focus');
+    }
+}
+
+
+function load() 
+{
+
+    let guessNum = getCookie("guessNum");
+    let wordLen = getCookie("wordLen");
+ 
+    if (guessNum == "")//cookies have expired or user is new
+    {
+        guessNum = setCookie("guessNum", "0");
+        wordLen = setCookie("wordLen", "5");
+    } 
+    if(wordLen >= 6)
     {
         $(".c5").removeClass("hidden");
     }
-    else if(wordLen == 7)
+     if(wordLen >= 7)
     {
         $(".c6").removeClass("hidden");
     }
-
-    $("#line" + guessNum + " > div").css("pointer-events", "auto");
-    //focus on first letter
-    $("#g"+guessNum+"l0").focus();
-    $("#g"+guessNum+"l0").addClass('focus');
 
     $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
@@ -167,6 +200,12 @@ function load()
         $(".text").text("");
         $(".text").removeClass("validPos validLet invalid");
         $(".keyboardLetter").removeClass("validPos validLet invalid");
+        eraseCookie("word0");
+        eraseCookie("word1");
+        eraseCookie("word2");
+        eraseCookie("word3");
+        eraseCookie("word4");
+        eraseCookie("word5");
         var wordLen = getCookie("wordLen");
         wordLen = parseInt(wordLen) + 1;
         setCookie("wordLen", wordLen);
@@ -252,6 +291,11 @@ function load()
     if(wordLen > 6)
         processLetter(currentWord,submittedWord,let6,6,7);
 
+    //disable focusing on current elements
+    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
+
+    guessNum = parseInt(guessNum) + 1;
+    setCookie("guessNum", guessNum);
     //winner!!
     if(submittedWord == currentWord){
         $(".text").css("pointer-events", "none");
@@ -271,8 +315,7 @@ function load()
             showMessage("That was rough!");
         if(wordLen < 7)
         {
-            $("#continue").removeClass("hidden");
-            $("#continue").show();
+            showContinue();
         }
         return;
     }
@@ -280,16 +323,16 @@ function load()
     {
         showMessage("That was sad...")
     }
-    
-    //disable focusing on current elements
-    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
-
-    guessNum = parseInt(guessNum) + 1;
-    setCookie("guessNum", guessNum);
 
     //enable focusing on next elements
     $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "auto");
 
+  }
+
+  function showContinue()
+  {
+    $("#continue").removeClass("hidden");
+    $("#continue").show();
   }
 
 
@@ -357,6 +400,14 @@ function load()
     let expires = "expires=" + d.toUTCString();
     
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    return cvalue;
+  }
+
+  function eraseCookie(cname) {
+    const d = new Date();
+    d.setTime(d.getTime() + (-1*24*60*60*1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
   }
   
   function getCookie(cname) {
