@@ -383,6 +383,12 @@ function load()
 
   function setCurrentWord(length)
   {
+    var guessNum = getCookie("guessNum");
+    if (guessNum == "")//cookies have expired or user is new
+    {
+        setCookie("guessNum", "0");
+        setCookie("wordLen", "5");
+    } 
     if(length == 5)
         setCookie("currentWord",WRDL5[getTodaysIndex(WRDL5.length)].toUpperCase());
     if(length == 6)
