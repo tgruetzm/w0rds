@@ -18,6 +18,7 @@ var WRDL7 = new Array();
         }
         
     }).done(function( data ) {
+        setInitCookies();
         let wordLen= getCookie("wordLen");
         if(wordLen == 5)
         {
@@ -32,6 +33,7 @@ var WRDL7 = new Array();
             WRDL6.push(data[key]);
         }
     }).done(function( data ) {
+        setInitCookies();
         let wordLen= getCookie("wordLen");
         if(wordLen == 6)
         {
@@ -46,6 +48,7 @@ var WRDL7 = new Array();
             WRDL7.push(data[key]);
         }
     }).done(function( data ) {
+        setInitCookies();
         let wordLen= getCookie("wordLen");
         if(wordLen == 7){
             setCurrentWord(7);
@@ -91,11 +94,6 @@ function load()
     let guessNum = getCookie("guessNum");
     let wordLen = getCookie("wordLen");
  
-    if (guessNum == "")//cookies have expired or user is new
-    {
-        guessNum = setCookie("guessNum", "0");
-        wordLen = setCookie("wordLen", "5");
-    } 
     if(wordLen >= 6)
     {
         $(".c5").removeClass("hidden");
@@ -381,14 +379,19 @@ function load()
     return (t) % length;
   }
 
-  function setCurrentWord(length)
+  function setInitCookies()
   {
     var guessNum = getCookie("guessNum");
     if (guessNum == "")//cookies have expired or user is new
     {
         setCookie("guessNum", "0");
         setCookie("wordLen", "5");
-    } 
+    }
+  }
+
+  function setCurrentWord(length)
+  {
+  
     if(length == 5)
         setCookie("currentWord",WRDL5[getTodaysIndex(WRDL5.length)].toUpperCase());
     if(length == 6)
