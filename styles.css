@@ -87,8 +87,9 @@ footer{
 {
    position: absolute;
    left: 50%;
-   top: 28%;
+   top: 25%;
    width: 40vw;
+   z-index: 2;
    font-size: 5vw;
    margin-left: -22vw;
 
@@ -206,7 +207,8 @@ p {
 {
    position: absolute;
    left: 50%;
-   top: 22%;
+   top: 25%;
+   z-index: 3;
    width: 40vw;
    font-size: 4vw;
    margin-left: -25vw;

@@ -410,6 +410,7 @@ function load()
         $.post( ResultsURL + "?user=" + user +"&score=" + score, function( data ) {
             
           });
+          toggleLeaderBoard();
     }
 
   function toggleLeaderBoard()
