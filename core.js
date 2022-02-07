@@ -402,9 +402,7 @@ function load()
         isWinner = true;
         $("#userEntry").show();
         $("#userEntry").removeClass("hidden");
-        $( "#userEntry" ).click(function() {
-            //$( "#leaderboard" ).fadeOut( "slow" );
-        });
+        
   }
 
     function postScore(user, score)
@@ -454,7 +452,7 @@ function load()
   {
     var today = new Date();
     var t = today.getFullYear() * today.getMonth() * today.getDate();
-    t = 2022*1*5;
+    //t = 2022*1*5;
     return (t) % length;
   }
 
