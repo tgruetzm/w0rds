@@ -9,9 +9,53 @@ footer{
    margin-top: auto;
 }
 
-.header
+.title
 {
-   height: 5vw;
+   font-size: 5vw;
+   width: 90vw;
+   margin-top: 2vh;
+   margin-bottom: 2vh;
+   font-weight: bold;
+   text-align: center;
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   align-items: center;
+   justify-content: center;
+}
+
+.leaderboard
+{
+   position: absolute;
+   left: 50%;
+   top: 20%;
+   width: 50vw;
+   font-size: 4vw;
+   margin-left: -30vw;
+   padding : 5vw;
+   color: white;
+   background-color: rgb(61, 61, 61);
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-weight: bold;
+   text-align: center;
+   user-select: none;
+}
+
+.leaderboardButton
+{
+   font-size: 2.5vw;
+   
+   padding: 1vw;
+   border-radius: .75vw;
+   border-style: solid;
+   border-color: #939598;
+   
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   font-weight: bold;
+   display: flex;
+   text-align: center;
+   flex-direction: column;
+   justify-content: center;
+   outline: none; 
+   user-select: none;
 }
 
 
@@ -39,9 +83,31 @@ footer{
    
 }
 
-.textFirstRow
+.userEntry
 {
-   /*pointer-events :auto;*/
+   position: absolute;
+   left: 50%;
+   top: 28%;
+   width: 40vw;
+   font-size: 5vw;
+   margin-left: -22vw;
+
+   font-weight: bold;
+   text-align: center;
+   background-color: white;
+   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+   border-width: 5px;
+   border-style: solid;
+   border-color: black;
+ 
+}
+
+.userEntryInner
+{
+   font-size: 10vw;
+   height: 12vw;
+   outline: none; 
+   user-select: none;
 }
 .line
 {
@@ -62,7 +128,7 @@ footer{
 p {
    margin-top: 2vh;
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-   font-size: 200%;
+   font-size: 150%;
    font-weight: bold;
    text-align: center;
 }
@@ -140,7 +206,7 @@ p {
 {
    position: absolute;
    left: 50%;
-   top: 25%;
+   top: 22%;
    width: 40vw;
    font-size: 4vw;
    margin-left: -25vw;
