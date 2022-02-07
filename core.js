@@ -2,6 +2,9 @@ var ValidScrabbles = new Set();
 var WRDL5 = new Array();
 var WRDL6 = new Array();
 var WRDL7 = new Array();
+var isWinner = false;
+
+const ResultsURL = "https://script.google.com/macros/s/AKfycbwIJvu_hqfQ2HKfOpM4ifIhqhI8ZojaSapDB_R3b0sIcic2nKazJB0Bd9i2UDWQIj4z/exec";
 
 
     //load valid scrabble words
@@ -90,7 +93,7 @@ function finishLoad()
 
 function load() 
 {
-
+    refreshLeaderBoard();
     let guessNum = getCookie("guessNum");
     let wordLen = getCookie("wordLen");
  
@@ -154,6 +157,32 @@ function load()
     //enter letter on virtual key press
     $(".keyboardLetter").click(function () { 
         var letter = $(this).text();
+        if(isWinner == true)
+        {
+
+            let c = $("#userEntryText").text();
+            
+            if(letter == "<X")
+            {
+                var newText = "";
+                if(c.length > 0)
+                {
+                    newText = c.substring(0, c.length -1);
+                    $("#userEntryText").text(newText);
+                }
+            }
+            else if(c.length <=2)
+                $("#userEntryText").text(c + letter);
+            $("#userEntryText").focus();
+
+            if(letter == "ENTER")
+            {
+                $( "#userEntry" ).fadeOut( "slow" );
+                var score = getCookie("score");
+                postScore( $("#userEntryText").text(),score);
+            }
+            return;
+        }
         if(letter == "ENTER")
         {
             $("#submit").click();
@@ -230,6 +259,10 @@ function load()
 
     });
 
+    $("#leaderboardButton").click(function () {
+        toggleLeaderBoard();
+    });
+
 }
 
   function submitWord()
@@ -294,8 +327,11 @@ function load()
 
     guessNum = parseInt(guessNum) + 1;
     setCookie("guessNum", guessNum);
+    var score = getCookie("score");
     //winner!!
     if(submittedWord == currentWord){
+        score = parseInt(score) + parseInt(guessNum);
+        setCookie("score",score);
         $(".text").css("pointer-events", "none");
         $(".text").removeClass("focus");
         $(".focus").blur();
@@ -315,9 +351,11 @@ function load()
         {
             showContinue();
         }
+        else//we beat all words, post score
+            processWinner();
         return;
     }
-    else if(parseInt(guessNum)+1 > maxGuess)
+    else if(parseInt(guessNum) > maxGuess)
     {
         showMessage("That was sad...")
     }
@@ -359,6 +397,47 @@ function load()
     }
   }
 
+  function processWinner()
+  {
+        isWinner = true;
+        $("#userEntry").show();
+        $("#userEntry").removeClass("hidden");
+        $( "#userEntry" ).click(function() {
+            //$( "#leaderboard" ).fadeOut( "slow" );
+        });
+  }
+
+    function postScore(user, score)
+    {   
+        $.post( ResultsURL + "?user=" + user +"&score=" + score, function( data ) {
+            
+          });
+    }
+
+  function toggleLeaderBoard()
+  {
+    if(!$("#leaderboard").is(":visible"))
+    {
+        refreshLeaderBoard();
+        $("#leaderboard").show();
+        $("#leaderboard").removeClass("hidden");
+        $( "#leaderboard" ).click(function() {
+            $( "#leaderboard" ).fadeOut( "slow" );
+        });
+    }
+    else 
+        $( "#leaderboard" ).fadeOut( "slow" );
+  }
+
+  function refreshLeaderBoard()
+  {
+    $.getJSON( ResultsURL,  function(data){
+        for (var i = 0; i < data.length; ++i ){
+            $( "#leaderboard li:nth-child("+ (i+1)+")").text(data[i].user + " - " + data[i].score);
+        }
+      });
+  }
+
 
   function showMessage(m)
   {
@@ -375,7 +454,7 @@ function load()
   {
     var today = new Date();
     var t = today.getFullYear() * today.getMonth() * today.getDate();
-    //t = 2022*1*4;
+    t = 2022*1*5;
     return (t) % length;
   }
 
@@ -386,6 +465,7 @@ function load()
     {
         setCookie("guessNum", "0");
         setCookie("wordLen", "5");
+        setCookie("score",0);
     }
   }
 
