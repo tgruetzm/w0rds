@@ -2,10 +2,7 @@ var ValidScrabbles = new Set();
 var WRDL5 = new Array();
 var WRDL6 = new Array();
 var WRDL7 = new Array();
-var currentWord;
 
-function load() 
-{
 
     //load valid scrabble words
     $.getJSON("validScrabbles.json", function(data){
@@ -19,14 +16,29 @@ function load()
         for (var key in data){
             WRDL5.push(data[key]);
         }
-        //pick the word
-        currentWord = WRDL5[getTodaysIndex(WRDL5.length)].toUpperCase();;
+        
+    }).done(function( data ) {
+        setInitCookies();
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 5)
+        {
+            setCurrentWord(5);
+            finishLoad();
+        }
     });
 
     //load 6 letter words to pick from
     $.getJSON("wrdl6.json", function(data){
         for (var key in data){
             WRDL6.push(data[key]);
+        }
+    }).done(function( data ) {
+        setInitCookies();
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 6)
+        {
+            setCurrentWord(6);
+            finishLoad();
         }
     });
 
@@ -35,17 +47,61 @@ function load()
         for (var key in data){
             WRDL7.push(data[key]);
         }
+    }).done(function( data ) {
+        setInitCookies();
+        let wordLen= getCookie("wordLen");
+        if(wordLen == 7){
+            setCurrentWord(7);
+            finishLoad();
+        }
     });
 
-    //let guessNum = getCookie("guessNum");
-    //if (guessNum == "") 
-        setCookie("guessNum", "0");
-    //let wxrd = getCookie("wxrd");
-    //if(wxrd == "")
-        setCookie("wordLen", "5");
-    
-    //focus on first letter
-    $("#g0l0").focus();
+
+function finishLoad()
+{
+    let guessNum = getCookie("guessNum");
+    let wordLen = getCookie("wordLen");
+    let currentWord = getCookie("currentWord");
+    let word;
+    for(let i = 0; i <guessNum; i++)
+    {
+        word = getCookie("word"+ i);
+        if(word == currentWord && wordLen < 7)
+            showContinue();
+        
+        for(let j = 0; j < wordLen; j++)
+        {
+            var letterDiv = "#g" + i + "l" + j;
+            $(letterDiv).text(word.substring(j,j+1));
+            processLetter(currentWord,word,letterDiv,j,j+1);
+        }
+        
+    }
+    //if final word is not current, focus on next line
+    if(word != currentWord)
+    {
+        //focus on next line, first letter
+        $("#line" + guessNum + " > div").css("pointer-events", "auto");
+        $("#g"+guessNum+"l0").focus();
+        $("#g"+guessNum+"l0").addClass('focus');
+    }
+}
+
+
+function load() 
+{
+
+    let guessNum = getCookie("guessNum");
+    let wordLen = getCookie("wordLen");
+ 
+    if(wordLen >= 6)
+    {
+        $(".c5").removeClass("hidden");
+    }
+     if(wordLen >= 7)
+    {
+        $(".c6").removeClass("hidden");
+    }
 
     $(".text").keypress(function(event) {
         if (event.keyCode === 13) {
@@ -60,8 +116,8 @@ function load()
     //move focus forward and backwards
     $(".text").keyup(function () { //TODO change to not alpha
         if($(this).text().length === 1 && event.keyCode != 8) {
-            var curFocus = $(this);
-            var nextFocus = $(this).next('.text');
+            let curFocus = $(this);
+            let nextFocus = $(this).next('.text');
             if(nextFocus.attr('id') != null && !nextFocus.hasClass("hidden"))
             {
                 $(this).next('.text').focus();
@@ -142,6 +198,12 @@ function load()
         $(".text").text("");
         $(".text").removeClass("validPos validLet invalid");
         $(".keyboardLetter").removeClass("validPos validLet invalid");
+        eraseCookie("word0");
+        eraseCookie("word1");
+        eraseCookie("word2");
+        eraseCookie("word3");
+        eraseCookie("word4");
+        eraseCookie("word5");
         var wordLen = getCookie("wordLen");
         wordLen = parseInt(wordLen) + 1;
         setCookie("wordLen", wordLen);
@@ -149,13 +211,13 @@ function load()
         {
             $(".c5").removeClass("hidden");
             //pick 6 letter word
-            currentWord = WRDL6[getTodaysIndex(WRDL6.length)].toUpperCase();;
+            setCurrentWord(6);
         }
         else if(wordLen == 7)
         {
             $(".c6").removeClass("hidden");
             //pick 7 letter word
-            currentWord = WRDL7[getTodaysIndex(WRDL7.length)].toUpperCase();;
+            setCurrentWord(7);
         }
         setCookie("guessNum", 0);
         //enable focusing on elements
@@ -199,6 +261,8 @@ function load()
 
     submittedWord = $(let0).text() + $(let1).text() + $(let2).text() + $(let3).text() + $(let4).text() + $(let5).text() + $(let6).text();
 
+    setCookie("word"+ guessNum, submittedWord);
+
     
     //validate word so mother doesn't cheat
     if(!ValidScrabbles.has(submittedWord))
@@ -213,6 +277,7 @@ function load()
     $(nextLet).addClass('focus');
     $(nextLet).focus();
 
+    currentWord = getCookie("currentWord");
     //check letters in submitted word
     processLetter(currentWord,submittedWord,let0,0,1);
     processLetter(currentWord,submittedWord,let1,1,2);
@@ -224,6 +289,11 @@ function load()
     if(wordLen > 6)
         processLetter(currentWord,submittedWord,let6,6,7);
 
+    //disable focusing on current elements
+    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
+
+    guessNum = parseInt(guessNum) + 1;
+    setCookie("guessNum", guessNum);
     //winner!!
     if(submittedWord == currentWord){
         $(".text").css("pointer-events", "none");
@@ -243,8 +313,7 @@ function load()
             showMessage("That was rough!");
         if(wordLen < 7)
         {
-            $("#continue").removeClass("hidden");
-            $("#continue").show();
+            showContinue();
         }
         return;
     }
@@ -252,16 +321,16 @@ function load()
     {
         showMessage("That was sad...")
     }
-    
-    //disable focusing on current elements
-    $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "none");
-
-    guessNum = parseInt(guessNum) + 1;
-    setCookie("guessNum", guessNum);
 
     //enable focusing on next elements
     $("#line" + parseInt(guessNum) + " > div").css("pointer-events", "auto");
 
+  }
+
+  function showContinue()
+  {
+    $("#continue").removeClass("hidden");
+    $("#continue").show();
   }
 
 
@@ -310,15 +379,44 @@ function load()
     return (t) % length;
   }
 
+  function setInitCookies()
+  {
+    var guessNum = getCookie("guessNum");
+    if (guessNum == "")//cookies have expired or user is new
+    {
+        setCookie("guessNum", "0");
+        setCookie("wordLen", "5");
+    }
+  }
+
+  function setCurrentWord(length)
+  {
+  
+    if(length == 5)
+        setCookie("currentWord",WRDL5[getTodaysIndex(WRDL5.length)].toUpperCase());
+    if(length == 6)
+        setCookie("currentWord",WRDL6[getTodaysIndex(WRDL6.length)].toUpperCase());
+    if(length == 7)
+        setCookie("currentWord",WRDL7[getTodaysIndex(WRDL7.length)].toUpperCase());
+  }
+
 
 
   function setCookie(cname,cvalue) {
     const d = new Date();
     //d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    d.setHours(24,0,0,0);
+    d.setHours(24,0,0,0);//expire at midnight
     let expires = "expires=" + d.toUTCString();
     
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    return cvalue;
+  }
+
+  function eraseCookie(cname) {
+    const d = new Date();
+    d.setTime(d.getTime() + (-1*24*60*60*1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + '' + ";" + expires + ";path=/";
   }
   
   function getCookie(cname) {

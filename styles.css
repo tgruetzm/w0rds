@@ -35,12 +35,13 @@ footer{
    border-color: #939598;
    outline: none; 
    pointer-events :none;
+   user-select: none;
    
 }
 
 .textFirstRow
 {
-   pointer-events :auto;
+   /*pointer-events :auto;*/
 }
 .line
 {
@@ -95,6 +96,7 @@ p {
    flex-direction: column;
    justify-content: center;
    outline: none; 
+   user-select: none;
 }
 
 .keyboardLetterExtraWide
@@ -148,6 +150,7 @@ p {
    font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
    font-weight: bold;
    text-align: center;
+   user-select: none;
 }
 
 .button
@@ -167,4 +170,5 @@ p {
    flex-direction: column;
    justify-content: center;
    outline: none; 
+   user-select: none;
 }
