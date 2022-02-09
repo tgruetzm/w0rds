@@ -137,9 +137,12 @@ function load()
                 $(let0).addClass('focus');
                 return;
             }
-            $(this).prev('.text').focus();
-            $(".text").removeClass("focus");
-            $(this).prev('.text').addClass('focus');
+            if($(this).text() == "")
+            {
+                $(this).prev('.text').focus();
+                $(".text").removeClass("focus");
+                $(this).prev('.text').addClass('focus');
+            }
             $(this).text("");
 
             
