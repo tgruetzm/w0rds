@@ -137,12 +137,9 @@ function load()
                 $(let0).addClass('focus');
                 return;
             }
-            if($(this).text() == "")
-            {
-                $(this).prev('.text').focus();
-                $(".text").removeClass("focus");
-                $(this).prev('.text').addClass('focus');
-            }
+            $(this).prev('.text').focus();
+            $(".text").removeClass("focus");
+            $(this).prev('.text').addClass('focus');
             $(this).text("");
 
             
@@ -168,12 +165,9 @@ function load()
             var focusPrev = focus.prev('.text');
             if(focusPrev.attr('id') != null)
             {
-                if(focus.text() == "")
-                {
-                    focusPrev.focus();
-                    $(".text").removeClass("focus");
-                    focusPrev.addClass('focus');
-                }
+                focusPrev.focus();
+                $(".text").removeClass("focus");
+                focusPrev.addClass('focus');
                 focus.text("");
             }
             else
