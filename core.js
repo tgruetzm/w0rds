@@ -165,9 +165,12 @@ function load()
             var focusPrev = focus.prev('.text');
             if(focusPrev.attr('id') != null)
             {
-                focusPrev.focus();
-                $(".text").removeClass("focus");
-                focusPrev.addClass('focus');
+                if(focus.text() == "")
+                {
+                    focusPrev.focus();
+                    $(".text").removeClass("focus");
+                    focusPrev.addClass('focus');
+                }
                 focus.text("");
             }
             else
