@@ -3,6 +3,7 @@ var WRDL5 = new Array();
 var WRDL6 = new Array();
 var WRDL7 = new Array();
 
+let Overtype = true;
 
     //load valid scrabble words
     $.getJSON("validScrabbles.json", function(data){
@@ -109,12 +110,20 @@ function load()
             return;
         }
         //if (event.keyCode >= 65 && event.keyCode <=90) {//todo
-            $(this).text(event.key.toUpperCase());
+        $(this).text(event.key.toUpperCase());
         //}
         });
 
     //move focus forward and backwards
     $(".text").keyup(function () { //TODO change to not alpha
+
+        if(!Overtype)
+        {
+            if ( event.keyCode === 8)
+            $(this).text("");
+            return;
+        }
+            
         if($(this).text().length === 1 && event.keyCode != 8) {
             let curFocus = $(this);
             let nextFocus = $(this).next('.text');
@@ -153,8 +162,11 @@ function load()
     });
     //enter letter on virtual key press
     $(".keyboardLetter").click(function () { 
+        
+        if($(this).attr('id') == "OT")
+            return;
         var letter = $(this).text();
-        if(letter == "ENTER")
+        if(letter == "ENT")
         {
             $("#submit").click();
             return;
@@ -162,6 +174,12 @@ function load()
         else if(letter == "<X")
         {
             var focus = $(".focus");
+            if(!Overtype)
+            {
+                focus.text("");
+                return;
+            }
+            
             var focusPrev = focus.prev('.text');
             if(focusPrev.attr('id') != null)
             {
@@ -182,6 +200,8 @@ function load()
             return;
         }
         $(".focus").text(letter);
+        if(!Overtype)
+            return;
         var curFocus = $(".focus");
         var nextFocus = curFocus.next('.text');
         if(nextFocus.attr('id') != null && !nextFocus.hasClass("hidden"))
@@ -189,6 +209,19 @@ function load()
             curFocus.next('.text').focus();
             $(".text").removeClass("focus");
             curFocus.next('.text').addClass('focus');
+        }
+    });
+
+    $("#OT").click(function () { 
+        if(Overtype == true)
+        {
+            $("#OT").removeClass("validPos");
+            Overtype = false;
+        }
+        else
+        {
+            $("#OT").addClass("validPos");
+            Overtype = true;
         }
     });
 
