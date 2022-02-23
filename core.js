@@ -375,7 +375,7 @@ function load()
   {
     var today = new Date();
     var t = today.getFullYear() * today.getMonth() * today.getDate();
-    //t = 2022*1*4;
+    t = 2022*1*4;
     return (t) % length;
   }
 
